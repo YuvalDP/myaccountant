@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
-import LoginForm from './components/Login';
+import LoginForm from './components/Login/index';
 
 class App extends Component {
   render() {
