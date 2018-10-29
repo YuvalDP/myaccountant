@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import './login.scss'
 
 const FormItem = Form.Item;
 
@@ -16,7 +17,13 @@ class NormalLoginForm extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <div className="login-form">
+            <div className="main-login-container">
+
+            <div className="login-form" align="center">
+                <div className="login-heading">
+                    <img alt="logo"/>
+                    <span> Login to your account</span>
+                </div>
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <FormItem>
                     {getFieldDecorator('userName', {
@@ -33,19 +40,26 @@ class NormalLoginForm extends React.Component {
                     )}
                 </FormItem>
                 <FormItem>
+
                     {getFieldDecorator('remember', {
                         valuePropName: 'checked',
                         initialValue: true,
                     })(
                         <Checkbox>Remember me</Checkbox>
                     )}
-                    <a className="login-form-forgot" href="">Forgot password</a>
+                    <p>
                     <Button type="primary" htmlType="submit" className="login-form-button">
                         Log in
                     </Button>
-                    Or <a href="">register now!</a>
+                    </p>
+                    <p>
+                    <a className="login-form-forgot" href="">Forgot password </a>
+
+                    Or <a href=""> register now!</a>
+                    </p>
                 </FormItem>
             </Form>
+            </div>
             </div>
         );
     }
