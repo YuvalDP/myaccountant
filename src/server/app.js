@@ -7,10 +7,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var JwtStrategy = require('./routes/passport');
 
-
-
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var authRoute = require('./routes/authentication');
 
 var app = express();
@@ -29,7 +26,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 passport.use(JwtStrategy);
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/auth', authRoute);
 
 // catch 404 and forward to error handler
