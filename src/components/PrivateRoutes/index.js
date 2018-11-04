@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { isValidUser } from '../../utility';
+import SideBar from '../NavBar';
 
 const PrivateRoutes = ({ component: Component, ...rest }) => (
     <Route
@@ -8,7 +9,9 @@ const PrivateRoutes = ({ component: Component, ...rest }) => (
         render={props =>
             isValidUser()
             ?
-                <Component {...props}/>
+                <SideBar>
+                    <Component {...props}/>
+                </SideBar>
                 :
                 <Redirect
                     to={{
