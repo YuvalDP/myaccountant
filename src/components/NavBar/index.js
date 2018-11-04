@@ -1,5 +1,6 @@
 import React from 'react';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { NavLink } from 'react-router-dom';
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -54,8 +55,9 @@ class SideBar extends React.Component {
                             <span>File</span>
                         </Menu.Item>
                         <Menu.Item key="10">
-                            <Icon type="logout" theme="outlined" />
-                            <span>Logout</span>
+                            <NavLink to="/logout"> <Icon type="logout" theme="outlined" />
+                                <span>Logout</span>
+                            </NavLink>
                         </Menu.Item>
                     </Menu>
                 </Sider>
