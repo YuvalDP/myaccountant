@@ -1,21 +1,47 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { connect } from 'react-redux'
+import { Login } from '../../actions/authActions';
 import './login.scss'
 
 const FormItem = Form.Item;
 
 class NormalLoginForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: '',
+            password: ''
+        }
+    }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.auth.isLoggedIn) {
+            this.props.history.push('/app/dashboard');
+        }
+    }
+
     handleSubmit = (e) => {
+        debugger;
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                const { email, password } = values;
+                this.props.Login({ email, password });
             }
+        });
+    }
+    handleChange = (e) => {
+        debugger;
+        const { name, value } = e.target;
+        this.setState({
+            [name]: value
         });
     }
 
     render() {
         const { getFieldDecorator } = this.props.form;
+        const { username, password } = this.state;
         return (
             <div className="main-login-container">
 
@@ -26,17 +52,17 @@ class NormalLoginForm extends React.Component {
                 </div>
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <FormItem>
-                    {getFieldDecorator('userName', {
-                        rules: [{ required: true, message: 'Please input your username!' }],
+                    {getFieldDecorator('email', {
+                        rules: [{ required: true, message: 'Please input your email!' }],
                     })(
-                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+                        <Input name="username" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleChange} placeholder="Username" />
                     )}
                 </FormItem>
                 <FormItem>
                     {getFieldDecorator('password', {
                         rules: [{ required: true, message: 'Please input your Password!' }],
                     })(
-                        <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                        <Input name="password" onChange={this.handleChange} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
                     )}
                 </FormItem>
                 <FormItem>
@@ -65,6 +91,12 @@ class NormalLoginForm extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        auth: state.authReducer
+    }
+}
+
 const WrappedNormalLoginForm = Form.create()(NormalLoginForm);
 
-export default WrappedNormalLoginForm;
+export default connect(mapStateToProps, { Login })(WrappedNormalLoginForm);
