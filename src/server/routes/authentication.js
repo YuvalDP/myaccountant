@@ -1,6 +1,7 @@
 const express = require('express');
 const Router = express.Router();
 const User = require('../database/models/Users');
+const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -38,6 +39,16 @@ Router.post('/login', (req, res) => {
 
         });
 
+});
+
+Router.post('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
+    console.log(req);
+    if (req.user) {
+        res.send(req.user);
+    }
+    else {
+        res.status(401).json({ message: 'Unauthorized' });
+    }
 });
 
 

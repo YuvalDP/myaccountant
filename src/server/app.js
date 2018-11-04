@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+require('dotenv').config()
+var cors = require('cors')
 var mongoose = require('mongoose');
 var passport = require('passport');
 var JwtStrategy = require('./routes/passport');
@@ -16,9 +18,9 @@ require('dotenv').config();
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('Mongoose connected !'))
     .catch((err) => console.log('error', err));
-require('dotenv').config()
 app.use(logger('dev'));
 app.use(express.json());
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(cookieParser());
