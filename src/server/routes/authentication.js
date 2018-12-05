@@ -24,7 +24,6 @@ Router.post('/login', (req, res) => {
                         lastname,
                         _id
                     }
-                    console.log('env', process.env.SECRET_KEY);
                     const token = jwt.sign(payload, process.env.SECRET_KEY);
                     res.send({ token });
                 }else{
@@ -42,7 +41,6 @@ Router.post('/login', (req, res) => {
 });
 
 Router.post('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
-    console.log(req);
     if (req.user) {
         res.send(req.user);
     }

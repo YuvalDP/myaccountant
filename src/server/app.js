@@ -1,6 +1,7 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+var passport = require('passport');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('dotenv').config()
@@ -11,6 +12,8 @@ var JwtStrategy = require('./routes/passport');
 
 var indexRouter = require('./routes/index');
 var authRoute = require('./routes/authentication');
+var usersRoute = require('./routes/users');
+var moneyRoute = require('./routes/MoneyDoc_Routes');
 
 var app = express();
 require('dotenv').config();
@@ -28,7 +31,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 passport.use(JwtStrategy);
 
 app.use('/', indexRouter);
+app.use('/users', usersRoute);
 app.use('/auth', authRoute);
+app.use('/money',passport.authenticate('jwt', { session: false }), moneyRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -43,7 +48,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.send({ messege: 'default error', err });
 });
 
 module.exports = app;
