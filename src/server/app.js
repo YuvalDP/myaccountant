@@ -14,6 +14,7 @@ var indexRouter = require('./routes/index');
 var authRoute = require('./routes/authentication');
 var usersRoute = require('./routes/users');
 var moneyRoute = require('./routes/MoneyDoc_Routes');
+var expanceRoute = require('./routes/Expances_Routes');
 
 var app = express();
 require('dotenv').config();
@@ -34,6 +35,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRoute);
 app.use('/auth', authRoute);
 app.use('/money',passport.authenticate('jwt', { session: false }), moneyRoute);
+app.use('/expance',passport.authenticate('jwt', { session: false }), expanceRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
