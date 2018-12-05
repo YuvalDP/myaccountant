@@ -4,15 +4,14 @@ var path = require('path');
 var passport = require('passport');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-require('dotenv').config()
-var cors = require('cors')
+require('dotenv').config();
+var cors = require('cors');
 var mongoose = require('mongoose');
-var passport = require('passport');
 var JwtStrategy = require('./routes/passport');
 
 var indexRouter = require('./routes/index');
 var authRoute = require('./routes/authentication');
-var usersRoute = require('./routes/users');
+var usersRoute = require('./routes/users_Routes');
 var moneyRoute = require('./routes/MoneyDoc_Routes');
 var expanceRoute = require('./routes/Expances_Routes');
 
@@ -32,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 passport.use(JwtStrategy);
 
 app.use('/', indexRouter);
-app.use('/users', usersRoute);
+app.use('/users',passport.authenticate('jwt', { session: false }), usersRoute);
 app.use('/auth', authRoute);
 app.use('/money',passport.authenticate('jwt', { session: false }), moneyRoute);
 app.use('/expance',passport.authenticate('jwt', { session: false }), expanceRoute);
@@ -43,14 +42,14 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.send({ messege: 'default error', err });
-});
+// app.use(function(err, req, res, next) {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+//
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.send({ messege: 'default error', err });
+// });
 
 module.exports = app;
